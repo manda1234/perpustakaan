@@ -53,15 +53,17 @@
                 </table>
             </div>
         </div>
+
+
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 document.querySelectorAll(".delete-btn").forEach((button) => {
                     button.addEventListener("click", function(event) {
                         event.preventDefault();
-        
+
                         let id = this.getAttribute("data-id");
                         let deleteUrl = "{{ route('buku.destroy', ':id') }}".replace(':id', id);
-        
+
                         Swal.fire({
                             title: "Kamu yakin?",
                             text: "Kamu akan menghapus data dan tidak bisa dikembalikan!",
@@ -76,21 +78,21 @@
                                 let form = document.createElement('form');
                                 form.method = 'POST';
                                 form.action = deleteUrl;
-        
+
                                 // Menambahkan CSRF token
                                 let csrfToken = document.createElement('input');
                                 csrfToken.type = 'hidden';
                                 csrfToken.name = '_token';
                                 csrfToken.value = "{{ csrf_token() }}";
                                 form.appendChild(csrfToken);
-        
+
                                 // Menambahkan input untuk method DELETE
                                 let methodField = document.createElement('input');
                                 methodField.type = 'hidden';
                                 methodField.name = '_method';
                                 methodField.value = 'DELETE';
                                 form.appendChild(methodField);
-        
+
                                 // Menambahkan form ke body dan submit
                                 document.body.appendChild(form);
                                 form.submit(); // Mengirimkan form
@@ -100,7 +102,8 @@
                 });
             });
         </script>
-        
+
+
 
         <script>
             let table = new DataTable('#mytable');

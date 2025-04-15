@@ -78,22 +78,30 @@ class BukuController extends Controller
         $buku = Buku::find($id);
         return view('buku.show', compact('buku'));
     }
-
     public function destroy($id)
     {
-        $buku = Buku::find($id);
-        if (!$buku) {
-            return redirect()->route('buku.index')->with(
-                'error',
-                'Buku tidak ditem
-            akan',
-            );
+        try {
+            $data = Buku::find($id);
+            if (!$data) {
+                return back()->with('error', 'data buku tidak ditemukan');
+            }
+            $data->delete();
+            return back()->with('success', 'buku berhasil dihapus');
+
+            if (!$data) {
+                return back()->with('error', 'buku gagal ditambahkan');
+            }
+
+            $data->delete();
+            return back()->with('success', 'buku berhasil dihapus');
+        } catch (\Throwable $th) {
+            log::error([
+                'line' => $th->getLine(),
+                'Message' => $th->getMessage(),
+                'File' => $th->getFile(),
+            ]);
+
+            return $th->getMessage();
         }
-        $buku->delete();
-        return redirect()->route('buku.index')->with(
-            'success',
-            'Buku berhasil dihapus
-            ',
-        );
     }
 }
